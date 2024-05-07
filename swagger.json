@@ -1,0 +1,344 @@
+{
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Documentation of our awesome API.",
+    "title": "Service.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8000",
+  "basePath": "/v1/",
+  "paths": {
+    "/event/": {
+      "post": {
+        "tags": [
+          "event"
+        ],
+        "summary": "Create event.",
+        "operationId": "PostEvent",
+        "parameters": [
+          {
+            "x-go-name": "Body",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/EventInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PostEventResponse"
+          }
+        }
+      }
+    },
+    "/event/join": {
+      "post": {
+        "tags": [
+          "event"
+        ],
+        "summary": "Join the event.",
+        "operationId": "PostEventJoin",
+        "parameters": [
+          {
+            "x-go-name": "Body",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/PostEventJoinReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PostEventJoinResponse"
+          }
+        }
+      }
+    },
+    "/event/list": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "Get event list.",
+        "operationId": "GetEventList",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetEventListResponse"
+          }
+        }
+      }
+    },
+    "/event/quit": {
+      "post": {
+        "tags": [
+          "event"
+        ],
+        "summary": "Quit the event.",
+        "operationId": "PostEventQuit",
+        "parameters": [
+          {
+            "x-go-name": "Body",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/PostEventQuitReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PostEventQuitResponse"
+          }
+        }
+      }
+    },
+    "/event/user": {
+      "get": {
+        "tags": [
+          "event"
+        ],
+        "summary": "Get event of the user.",
+        "operationId": "GetEventUser",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetEventUserResponse"
+          }
+        }
+      }
+    },
+    "/user/": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get user information.",
+        "operationId": "GetUser",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/GetUserResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update user information.",
+        "operationId": "PostUser",
+        "parameters": [
+          {
+            "x-go-name": "Body",
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/PostUserReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/PostUserResponse"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Event": {
+      "type": "object",
+      "properties": {
+        "eid": {
+          "type": "string",
+          "x-go-name": "Eid"
+        },
+        "joined": {
+          "type": "boolean",
+          "x-go-name": "Joined"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Latitude"
+        },
+        "location": {
+          "type": "string",
+          "x-go-name": "Location"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Longitude"
+        },
+        "numberOfPeople": {
+          "description": "The maximum number of people joining the event",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NumberOfPeople"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "x-go-name": "Participants"
+        },
+        "startTime": {
+          "description": "The time the event starts, in the ISO8601 format \"2021-02-18T21:54:42.123Z\"",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "StartTime"
+        },
+        "type": {
+          "description": "The Event Type, could be eating, sports..., matches User.Interests",
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "cc-swagger"
+    },
+    "EventInfo": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Latitude"
+        },
+        "location": {
+          "type": "string",
+          "x-go-name": "Location"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double",
+          "x-go-name": "Longitude"
+        },
+        "numberOfPeople": {
+          "description": "The maximum number of people joining the event",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "NumberOfPeople"
+        },
+        "startTime": {
+          "description": "The time the event starts, in the ISO8601 format \"2021-02-18T21:54:42.123Z\"",
+          "type": "string",
+          "format": "date-time",
+          "x-go-name": "StartTime"
+        },
+        "type": {
+          "description": "The Event Type, could be eating, sports..., matches User.Interests",
+          "type": "string",
+          "x-go-name": "Type"
+        }
+      },
+      "x-go-package": "cc-swagger"
+    },
+    "GetUserResp": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "x-go-name": "Email"
+        },
+        "interest": {
+          "type": "string",
+          "x-go-name": "Interest"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "phone": {
+          "type": "string",
+          "x-go-name": "Phone"
+        }
+      },
+      "x-go-package": "cc-swagger"
+    },
+    "PostEventJoinReq": {
+      "type": "object",
+      "properties": {
+        "eid": {
+          "type": "string",
+          "x-go-name": "Eid"
+        }
+      },
+      "x-go-package": "cc-swagger"
+    },
+    "PostEventQuitReq": {
+      "type": "object",
+      "properties": {
+        "eid": {
+          "type": "string",
+          "x-go-name": "Eid"
+        }
+      },
+      "x-go-package": "cc-swagger"
+    },
+    "PostUserReq": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "x-go-name": "Email"
+        },
+        "interest": {
+          "type": "string",
+          "x-go-name": "Interest"
+        },
+        "name": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "phone": {
+          "type": "string",
+          "x-go-name": "Phone"
+        }
+      },
+      "x-go-package": "cc-swagger"
+    }
+  },
+  "responses": {
+    "GetEventListResponse": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Event"
+        }
+      }
+    },
+    "GetEventUserResponse": {
+      "description": "",
+      "schema": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Event"
+        }
+      }
+    },
+    "GetUserResponse": {
+      "description": "",
+      "schema": {
+        "$ref": "#/definitions/GetUserResp"
+      }
+    },
+    "PostEventJoinResponse": {
+      "description": ""
+    },
+    "PostEventQuitResponse": {
+      "description": ""
+    },
+    "PostEventResponse": {
+      "description": ""
+    },
+    "PostUserResponse": {
+      "description": ""
+    }
+  }
+}

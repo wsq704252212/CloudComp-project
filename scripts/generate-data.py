@@ -31,21 +31,22 @@ def generateUser():
             if interest not in interests:
                 interests.append(interest)
 
+        email = fake.email()
         user = {
-            'Uid': uid,
-            'Email': fake.email(),
+            #'Uid': email,
+            'Email': email,
             'Interests': interests
         }
         uid = uid + 1
         users.append(user)
 
-    with open('user.json', 'w') as f:
+    with open('user-v2.json', 'w') as f:
         json.dump(users, f)
 
     return users
 
 
-def generateEvent():
+def generateEvent(users):
     events = []
     headers = {
         "accept": "application/json",
@@ -64,8 +65,8 @@ def generateEvent():
             participants = []
             for i in range(numberOfPeople - random.randint(1, numberOfPeople-1)): 
                 participantsID = random.randint(0, userNumber-1)
-                if participantsID not in participants:
-                    participants.append(participantsID)
+                if users[participantsID]['Email'] not in participants:
+                    participants.append(users[participantsID]['Email'])
 
             # generate event
             event = {
@@ -87,7 +88,7 @@ def generateEvent():
 
             events.append(event)
     
-    with open('event.json', 'w') as f:
+    with open('event-v2.json', 'w') as f:
         json.dump(events, f)
 
     return events
@@ -109,7 +110,7 @@ def generateInteraction(events):
 
     df = pd.DataFrame(interactions)
     df.head()
-    df.to_csv('interaction-dataset.csv', index=False)
+    df.to_csv('interaction-dataset-v2.csv', index=False)
 
 def generateEventsDataset(events):
     eventDS = []
@@ -122,25 +123,25 @@ def generateEventsDataset(events):
 
     df = pd.DataFrame(eventDS)
     df.head()
-    df.to_csv('event-dataset.csv', index=False)
+    df.to_csv('event-dataset-v2.csv', index=False)
 
 
 def generateUserDataset(users):
     usersDS = []
     for u in users:
         user = {
-            'USER_ID': u['Uid'],
+            'USER_ID': u['Email'],
             'INTERESTS': '|'.join(u['Interests'])
         }
         usersDS.append(user)
 
     df = pd.DataFrame(usersDS)
     df.head()
-    df.to_csv('user-dataset.csv', index=False)
+    df.to_csv('user-dataset-v2.csv', index=False)
 
 
 users = generateUser()
-events = generateEvent()
+events = generateEvent(users)
 print(len(users), len(events))
 generateInteraction(events)
 generateEventsDataset(events)

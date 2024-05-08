@@ -1,14 +1,14 @@
 import boto3, time, json
 
-TRACKING_ID = 'eb13d987-c0b3-46a4-bd38-f6fdd9e89dc6'
+TRACKING_ID = 'b6fcc596-8b3e-4c32-acb4-72eb4a78521a'
 
 # For join
-def putInteraction(uid, eventID):
+def putInteraction(email, eventID):
     personalize_events = boto3.client('personalize-events')
     resp = personalize_events.put_events(
         trackingId = TRACKING_ID,
-        userId= str(uid),
-        sessionId = str(uid),
+        userId= email,
+        sessionId = email,
         eventList = [{
             'itemId': str(eventID),
             'sentAt': int(time.time()),
@@ -27,10 +27,10 @@ def putUser(user):
     properties_json = json.dumps(properties)
 
     personalize_events.put_users(
-        datasetArn='arn:aws:personalize:us-east-1:590183760509:dataset/friend-dataset-group/USERS',
+        datasetArn='arn:aws:personalize:us-east-1:590183760509:dataset/friend-dataset-group-v2/USERS',
         users=[
             {
-                'userId': str(user['Uid']),
+                'userId': user['Email'],
                 'properties': properties_json
             },
         ]
@@ -45,7 +45,7 @@ def putEvent(event):
     properties_json = json.dumps(properties)
 
     personalize_events.put_items(
-        datasetArn='arn:aws:personalize:us-east-1:590183760509:dataset/friend-dataset-group/ITEMS',
+        datasetArn='arn:aws:personalize:us-east-1:590183760509:dataset/friend-dataset-group-v2/ITEMS',
         items=[
             {
                 'itemId': str(event['Eid']),

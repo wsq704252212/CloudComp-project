@@ -4,7 +4,7 @@ import decimal
 
 db = boto3.resource('dynamodb')
 
-f = open('../data/user.json')
+f = open('../data/user-v2.json')
  
 users = json.load(f)
 table = db.Table("friend-user")
@@ -14,7 +14,7 @@ for u in users:
 f.close()
 
 
-f = open('../data/event.json')
+f = open('../data/event-v2.json')
  
 # returns JSON object as 
 # a dictionary

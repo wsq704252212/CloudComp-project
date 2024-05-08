@@ -3,15 +3,15 @@ import boto3
 from boto3.dynamodb.conditions import Key
 
 
-campaign_arn = 'arn:aws:personalize:us-east-1:590183760509:campaign/friend-campaign'
+campaign_arn = 'arn:aws:personalize:us-east-1:590183760509:campaign/friend-campaign-v1'
 
 def lambda_handler(event, context):
-    uid = getUidByEmail('sw6195@nyu.edu')
+    email = 'sw6195@nyu.edu'
 
     personalize_runtime = boto3.client('personalize-runtime')
     get_recommendations_response = personalize_runtime.get_recommendations(
         campaignArn = campaign_arn,
-        userId = str(uid),
+        userId = email,
         numResults=40
     )
 
@@ -40,6 +40,7 @@ def getEventFromDB(event_list):
     
     return events
 
+'''
 def getUidByEmail(email):
     db = boto3.resource('dynamodb')
     table = db.Table("friend-user")
@@ -47,5 +48,6 @@ def getUidByEmail(email):
     resp = table.query(KeyConditionExpression=Key("Email").eq(email))
     uid = resp["Items"][0]['Uid']
     return uid
+'''
 
 lambda_handler('', '')
